@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dual-Meet Atlas Chapalita - Ávila Camacho</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <main class="shell" id="app" data-admin="<%= isAdmin ? '1' : '0' %>">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">Torneo de frontenis · 18 de marzo</div>
+        <h1>Dual-Meet Atlas Chapalita - Ávila Camacho</h1>
+        <p>Control en tiempo real, vista monocromática, flujo de llaves y resultados sincronizados.</p>
+      </div>
+      <div class="actions">
+        <button id="loginBtn" class="btn ghost"><span class="material-symbols-outlined">lock</span> Login</button>
+        <button id="logoutBtn" class="btn ghost hidden"><span class="material-symbols-outlined">logout</span> Logout</button>
+        <button id="reorderBtn" class="btn ghost hidden"><span class="material-symbols-outlined">shuffle</span> Re-ordenar parejas</button>
+        <button id="startBtn" class="btn primary hidden"><span class="material-symbols-outlined">play_arrow</span> Iniciar torneo</button>
+        <button id="resetBtn" class="btn danger hidden"><span class="material-symbols-outlined">restart_alt</span> Reset</button>
+      </div>
+    </header>
+
+    <section class="hero card" id="bracketSection">
+      <div class="section-head">
+        <div>
+          <h2>Cuadro principal</h2>
+          <p id="phaseLabel">Registro de parejas</p>
+        </div>
+        <div class="pill" id="championPill">Sin campeón</div>
+      </div>
+      <div id="bracket"></div>
+    </section>
+
+    <section class="grid two-up">
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>Parejas registradas</h2>
+            <p>Persistencia local en archivos JSON. Sin base de datos.</p>
+          </div>
+        </div>
+        <div id="pairsList" class="pairs-list"></div>
+      </section>
+
+      <section class="card hidden" id="registerCard">
+        <div class="section-head">
+          <div>
+            <h2>Captura de parejas</h2>
+            <p>Solo usuarios con sesión pueden registrar.</p>
+          </div>
+        </div>
+        <form id="pairForm" class="form">
+          <label>
+            Equipo
+            <select name="team" required>
+              <option value="Atlas Chapalita">Atlas Chapalita</option>
+              <option value="Avila Camacho">Avila Camacho</option>
+            </select>
+          </label>
+          <label>
+            Nombre de la pareja
+            <input name="name" maxlength="80" placeholder="Ej. Juan Pérez / Carlos López" required />
+          </label>
+          <button class="btn primary" type="submit"><span class="material-symbols-outlined">add</span> Guardar pareja</button>
+        </form>
+        <p class="help">Las parejas se repartirán entre ambos grupos de forma equilibrada al iniciar el torneo.</p>
+      </section>
+    </section>
+
+    <section class="card" id="matchesSection">
+      <div class="section-head">
+        <div>
+          <h2>Partidos por grupo</h2>
+          <p>Resultados en tiempo real y captura manual con confirmación.</p>
+        </div>
+      </div>
+      <div id="matches"></div>
+    </section>
+
+    <section class="card" id="standingsSection">
+      <div class="section-head">
+        <div>
+          <h2>Tabla general por grupo</h2>
+          <p>Orden automático con prioridad por partidos ganados, diferencia y desempate directo.</p>
+        </div>
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-tab="1">Grupo 1</button>
+        <button class="tab" data-tab="2">Grupo 2</button>
+      </div>
+      <div id="standings"></div>
+      <div class="guide">Las dos primeras parejas resaltadas avanzan a semifinales. La primera tiene mayor énfasis visual.</div>
+    </section>
+  </main>
+
+  <dialog id="loginDialog" class="modal">
+    <form method="dialog" class="modal-card" id="loginForm">
+      <div class="section-head">
+        <div>
+          <h2>Acceso administrativo</h2>
+          <p>Ingresa la contraseña para habilitar acciones de control.</p>
+        </div>
+        <button class="icon-btn" value="cancel"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <label>
+        Contraseña
+        <input type="password" name="password" autocomplete="current-password" required />
+      </label>
+      <button class="btn primary" type="submit">Entrar</button>
+      <div class="error" id="loginError"></div>
+    </form>
+  </dialog>
+
+  <dialog id="resultDialog" class="modal">
+    <form method="dialog" class="modal-card" id="resultForm">
+      <div class="section-head">
+        <div>
+          <h2>Confirmar resultado</h2>
+          <p id="resultMatchTitle">—</p>
+        </div>
+        <button class="icon-btn" value="cancel"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="preview" id="resultPreview"></div>
+      <input type="hidden" name="matchId" />
+      <input type="hidden" name="winnerId" />
+      <label>
+        Puntaje del perdedor (0-10)
+        <input type="number" name="loserScore" min="0" max="10" required />
+      </label>
+      <div class="row">
+        <button class="btn ghost" value="cancel" type="button">Cancelar</button>
+        <button class="btn primary" type="submit">Guardar</button>
+      </div>
+      <div class="error" id="resultError"></div>
+    </form>
+  </dialog>
+
+  <script>
+    window.__INITIAL__ = <%- JSON.stringify(initial).replace(/</g, '\\u003c') %>;
+  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
