@@ -17,12 +17,12 @@
       <div>
         <div class="eyebrow">Torneo de frontenis · 18 de marzo</div>
         <h1>Dual-Meet Atlas Chapalita - Ávila Camacho</h1>
-        <p>Control en tiempo real, vista monocromática, flujo de llaves y resultados sincronizados.</p>
       </div>
       <div class="actions">
         <button id="loginBtn" class="btn ghost"><span class="material-symbols-outlined">lock</span> Login</button>
         <button id="logoutBtn" class="btn ghost hidden"><span class="material-symbols-outlined">logout</span> Logout</button>
         <button id="reorderBtn" class="btn ghost hidden"><span class="material-symbols-outlined">shuffle</span> Re-ordenar parejas</button>
+        <button id="finishGroupsBtn" class="btn primary hidden"><span class="material-symbols-outlined">last_page</span> Iniciar Semifinales</button>
         <button id="startBtn" class="btn primary hidden"><span class="material-symbols-outlined">play_arrow</span> Iniciar torneo</button>
         <button id="resetBtn" class="btn danger hidden"><span class="material-symbols-outlined">restart_alt</span> Reset</button>
       </div>
@@ -44,7 +44,6 @@
         <div class="section-head">
           <div>
             <h2>Parejas registradas</h2>
-            <p>Persistencia local en archivos JSON. Sin base de datos.</p>
           </div>
         </div>
         <div id="pairsList" class="pairs-list"></div>
@@ -140,6 +139,35 @@
         <button class="btn primary" type="submit">Guardar</button>
       </div>
       <div class="error" id="resultError"></div>
+    </form>
+  </dialog>
+
+  <dialog id="pairDialog" class="modal">
+    <form method="dialog" class="modal-card" id="pairEditForm">
+      <div class="section-head">
+        <div>
+          <h2>Actualizar pareja</h2>
+          <p>Modifica únicamente la pareja seleccionada antes de iniciar el torneo.</p>
+        </div>
+        <button class="icon-btn" value="cancel"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <input type="hidden" name="id" />
+      <label>
+        Equipo
+        <select name="team" required>
+          <option value="Atlas Chapalita">Atlas Chapalita</option>
+          <option value="Avila Camacho">Avila Camacho</option>
+        </select>
+      </label>
+      <label>
+        Nombre de la pareja
+        <input name="name" maxlength="80" placeholder="Ej. Juan Pérez / Carlos López" required />
+      </label>
+      <div class="row">
+        <button class="btn ghost" value="cancel" type="button">Cancelar</button>
+        <button class="btn primary" type="submit"><span class="material-symbols-outlined">save</span> Guardar cambios</button>
+      </div>
+      <div class="error" id="pairError"></div>
     </form>
   </dialog>
 

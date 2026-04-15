@@ -1,4 +1,163 @@
 {
-  "pairs": [],
-  "tournament": null
+  "pairs": [
+    {
+      "id": "pair_2h2kc76a_mnzaxgug",
+      "team": "Avila Camacho",
+      "name": "Samuel / Jimmy"
+    },
+    {
+      "id": "pair_bjsjktjz_mnzaw8ae",
+      "team": "Atlas Chapalita",
+      "name": "Alex Acosta / Sergio Acosta"
+    },
+    {
+      "id": "pair_ejunotd2_mnzawms1",
+      "team": "Atlas Chapalita",
+      "name": "Enrique Rojas / Vicente Zendejas"
+    },
+    {
+      "id": "pair_s50vv4j9_mnzax2rh",
+      "team": "Avila Camacho",
+      "name": "Chuy / Nazareo"
+    },
+    {
+      "id": "pair_tkqmjgnk_mnzawytv",
+      "team": "Avila Camacho",
+      "name": "Brayant / Alex otro"
+    },
+    {
+      "id": "pair_fg4s0aw3_mnzaxbem",
+      "team": "Atlas Chapalita",
+      "name": "Papo / Omar"
+    }
+  ],
+  "tournament": {
+    "startedAt": "2026-04-15T00:36:12.559Z",
+    "phase": "groups",
+    "groups": [
+      {
+        "id": 1,
+        "name": "Grupo 1",
+        "court": 1,
+        "pairs": [
+          {
+            "id": "pair_s50vv4j9_mnzax2rh",
+            "team": "Avila Camacho",
+            "name": "Chuy / Nazareo"
+          },
+          {
+            "id": "pair_tkqmjgnk_mnzawytv",
+            "team": "Avila Camacho",
+            "name": "Brayant / Alex otro"
+          },
+          {
+            "id": "pair_ejunotd2_mnzawms1",
+            "team": "Atlas Chapalita",
+            "name": "Enrique Rojas / Vicente Zendejas"
+          }
+        ],
+        "matches": [
+          [
+            {
+              "id": "m_gdkpgxwo_mnzbkxov",
+              "a": "pair_tkqmjgnk_mnzawytv",
+              "b": "pair_ejunotd2_mnzawms1",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_228mmazz_mnzbkxov",
+              "a": "pair_s50vv4j9_mnzax2rh",
+              "b": "pair_ejunotd2_mnzawms1",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_jl8f8z21_mnzbkxov",
+              "a": "pair_s50vv4j9_mnzax2rh",
+              "b": "pair_tkqmjgnk_mnzawytv",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ]
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Grupo 2",
+        "court": 2,
+        "pairs": [
+          {
+            "id": "pair_2h2kc76a_mnzaxgug",
+            "team": "Avila Camacho",
+            "name": "Samuel / Jimmy"
+          },
+          {
+            "id": "pair_bjsjktjz_mnzaw8ae",
+            "team": "Atlas Chapalita",
+            "name": "Alex Acosta / Sergio Acosta"
+          },
+          {
+            "id": "pair_fg4s0aw3_mnzaxbem",
+            "team": "Atlas Chapalita",
+            "name": "Papo / Omar"
+          }
+        ],
+        "matches": [
+          [
+            {
+              "id": "m_cpd8x7nw_mnzbkxov",
+              "a": "pair_bjsjktjz_mnzaw8ae",
+              "b": "pair_fg4s0aw3_mnzaxbem",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_xhvgpjnb_mnzbkxov",
+              "a": "pair_2h2kc76a_mnzaxgug",
+              "b": "pair_fg4s0aw3_mnzaxbem",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_gca99gxp_mnzbkxov",
+              "a": "pair_2h2kc76a_mnzaxgug",
+              "b": "pair_bjsjktjz_mnzaw8ae",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ]
+        ]
+      }
+    ],
+    "semis": [],
+    "final": null,
+    "champion": null
+  }
 }

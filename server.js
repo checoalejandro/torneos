@@ -5,7 +5,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
 const { readState, writeState, ensureStore } = require('./lib/store');
-const { uid, buildTournament, registerResult, resetTournament, publicState, shuffle, splitBalancedByTeam, ensureKnockout } = require('./lib/tournament');
+const { uid, buildTournament, registerResult, resetTournament, publicState, shuffle, splitBalancedByTeam, ensureKnockout, forceSemis } = require('./lib/tournament');
 
 const PORT = process.env.PORT || 3000;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'atlas-2025';
@@ -90,6 +90,39 @@ app.post('/pairs', requireAdmin, async (req, res) => {
   res.json({ ok: true });
 });
 
+app.post('/pairs/update', requireAdmin, async (req, res) => {
+  const { id, team, name } = req.body;
+  if (!id || !team || !String(name || '').trim()) {
+    return res.status(400).json({ ok: false, error: 'Faltan datos' });
+  }
+  const state = await getState();
+  if (state.tournament) {
+    return res.status(400).json({ ok: false, error: 'No puedes editar parejas con el torneo iniciado' });
+  }
+  const pair = state.pairs.find((item) => item.id === id);
+  if (!pair) return res.status(404).json({ ok: false, error: 'Pareja no encontrada' });
+  pair.team = team;
+  pair.name = String(name).trim();
+  await setState(state);
+  res.json({ ok: true });
+});
+
+app.post('/pairs/delete', requireAdmin, async (req, res) => {
+  const { id } = req.body;
+  if (!id) return res.status(400).json({ ok: false, error: 'Falta la pareja' });
+  const state = await getState();
+  if (state.tournament) {
+    return res.status(400).json({ ok: false, error: 'No puedes eliminar parejas con el torneo iniciado' });
+  }
+  const nextPairs = state.pairs.filter((item) => item.id !== id);
+  if (nextPairs.length === state.pairs.length) {
+    return res.status(404).json({ ok: false, error: 'Pareja no encontrada' });
+  }
+  state.pairs = nextPairs;
+  await setState(state);
+  res.json({ ok: true });
+});
+
 app.post('/start', requireAdmin, async (req, res) => {
   const state = await getState();
   if (state.tournament) return res.status(400).json({ ok: false, error: 'El torneo ya inició' });
@@ -112,8 +145,9 @@ app.post('/reorder', requireAdmin, async (req, res) => {
 });
 
 app.post('/reset', requireAdmin, async (req, res) => {
-  const state = resetTournament();
-  await setState(state);
+  const state = await getState();
+  const nextState = resetTournament(state.pairs);
+  await setState(nextState);
   req.session.admin = true;
   res.json({ ok: true });
 });
@@ -129,6 +163,15 @@ app.post('/result', requireAdmin, async (req, res) => {
   } catch (err) {
     res.status(400).json({ ok: false, error: err.message });
   }
+});
+
+app.post('/finish-groups', requireAdmin, async (req, res) => {
+  const state = await getState();
+  if (!state.tournament) return res.status(400).json({ ok: false, error: 'No hay torneo activo' });
+  if (state.tournament.phase !== 'groups') return res.status(400).json({ ok: false, error: 'El torneo no está en fase de grupos' });
+  forceSemis(state.tournament);
+  await setState(state);
+  res.json({ ok: true });
 });
 
 app.get('/api/state', async (req, res) => {

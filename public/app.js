@@ -22,15 +22,48 @@ function renderPairs() {
     list.innerHTML = `<div class="small">Aún no hay parejas registradas.</div>`;
     return;
   }
-  list.innerHTML = state.pairs.map((p, idx) => `
+  
+  const sortedPairs = [...state.pairs].sort((a, b) => {
+    if (a.group && b.group) {
+      return a.group.localeCompare(b.group);
+    }
+    return 0;
+  });
+
+  list.innerHTML = sortedPairs.map((p, idx) => `
     <div class="pair-chip fade-in">
       <div>
-        <div class="team-badge">${fmtTeam(p.team)}</div>
+        <div class="team-badge">${fmtTeam(p.team)} ${p.group ? `· ${p.group}` : ''}</div>
         <div style="font-weight:800;font-size:1.05rem">${escapeHtml(p.name)}</div>
       </div>
-      <div class="badge">#${idx + 1}</div>
+      <div class="pair-side">
+        <div class="badge">#${idx + 1}</div>
+        ${isAdmin && !state.tournament ? `
+          <div class="pair-actions">
+            <button class="btn ghost" type="button" data-edit-pair="${escapeHtml(p.id)}"><span class="material-symbols-outlined">edit</span> Editar</button>
+            <button class="btn ghost" type="button" data-delete-pair="${escapeHtml(p.id)}"><span class="material-symbols-outlined">delete</span> Eliminar</button>
+          </div>
+        ` : ''}
+      </div>
     </div>
   `).join('');
+
+  list.querySelectorAll('[data-edit-pair]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const pair = state.pairs.find((item) => item.id === btn.dataset.editPair);
+      if (pair) openPairDialog(pair);
+    });
+  });
+
+  list.querySelectorAll('[data-delete-pair]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const pairId = btn.dataset.deletePair;
+      const pair = state.pairs.find((item) => item.id === pairId);
+      if (!pair) return;
+      if (!confirm(`¿Eliminar la pareja \"${pair.name}\"?`)) return;
+      await api('/pairs/delete', { id: pairId });
+    });
+  });
 }
 
 function renderBracket() {
@@ -45,13 +78,6 @@ function renderBracket() {
     return;
   }
 
-  const groupsHtml = p.groups.map((group, i) => `
-    <div class="bracket-card">
-      <div class="match-head"><div><strong>${group.name}</strong><div class="small">Cancha ${group.court}</div></div><div class="badge">${group.matches.flat().length} partidos</div></div>
-      <div class="small">${group.pairs.map(x => escapeHtml(x.name)).join(' · ')}</div>
-    </div>
-  `).join('');
-
   const semiHtml = (p.semis || []).map((m) => `
     <div class="bracket-card">
       <div class="team-badge">${m.label}</div>
@@ -60,8 +86,9 @@ function renderBracket() {
         <div><strong>${escapeHtml(m.bName || 'Pendiente')}</strong></div>
       </div>
       <div class="small" style="margin-top:10px">${m.finished ? `${m.scoreA} - ${m.scoreB} · ganador: ${escapeHtml(m.winnerId === m.a ? m.aName : m.bName)}` : 'Pendiente de resultado'}</div>
+      ${isAdmin && !m.finished && m.a && m.b ? `<button class="btn primary" style="margin-top:10px;width:100%" data-capture="1" data-match='${escapeHtml(JSON.stringify(m))}'>Capturar</button>` : ''}
     </div>
-  `).join('') || `<div class="bracket-card"><div class="small">Semifinales se activan al cerrar la fase de grupos.</div></div>`;
+  `).join('') || `<div class="bracket-card"><div class="small">Las semifinales aparecerán al cerrar la fase de grupos.</div></div>`;
 
   const finalHtml = p.final ? `
     <div class="bracket-card">
@@ -71,16 +98,21 @@ function renderBracket() {
         <div><strong>${escapeHtml(p.final.bName || 'Pendiente')}</strong></div>
       </div>
       <div class="small" style="margin-top:10px">${p.final.finished ? `Campeón: ${escapeHtml(state.champion?.name || '')}` : 'Pendiente de resultado'}</div>
+      ${isAdmin && !p.final.finished && p.final.a && p.final.b ? `<button class="btn primary" style="margin-top:10px;width:100%" data-capture="1" data-match='${escapeHtml(JSON.stringify(p.final))}'>Capturar</button>` : ''}
     </div>
   ` : `<div class="bracket-card"><div class="small">La final aparecerá cuando se definan las semifinales.</div></div>`;
 
   bracket.innerHTML = `
     <div class="bracket-layout fade-in">
-      <div class="match-list">${groupsHtml}</div>
+      <div class="match-list">${semiHtml}</div>
       <div class="connector"></div>
-      <div class="match-list">${semiHtml}${finalHtml}</div>
+      <div class="match-list">${finalHtml}</div>
     </div>
   `;
+
+  bracket.querySelectorAll('[data-capture]').forEach((btn) => {
+    btn.addEventListener('click', () => openResultDialog(JSON.parse(btn.dataset.match)));
+  });
 }
 
 function renderMatches() {
@@ -92,27 +124,26 @@ function renderMatches() {
   const groups = state.tournament.groups || [];
   holder.innerHTML = groups.map((group) => {
     const rounds = group.matches || [];
+    const allMatches = rounds.flat();
     return `
       <div class="match-list" style="margin-bottom:22px">
         <div class="match-head"><div><strong>${group.name}</strong><div class="small">Resultados capturados en vivo</div></div><div class="badge">Cancha ${group.court}</div></div>
-        ${rounds.map((round, ri) => `
-          <div class="match-card fade-in">
-            <div class="match-head"><div class="team-badge">Ronda ${ri + 1}</div><div class="small">${round.filter(m => m.finished).length}/${round.length} capturados</div></div>
-            ${round.map((m) => `
-              <div class="pair-chip" style="align-items:center">
-                <div>
-                  <div style="font-weight:800">${escapeHtml(m.aName)} <span class="small">(${escapeHtml(m.aTeam)})</span></div>
-                  <div class="small">vs</div>
-                  <div style="font-weight:800">${escapeHtml(m.bName)} <span class="small">(${escapeHtml(m.bTeam)})</span></div>
-                </div>
-                <div style="display:grid;justify-items:end;gap:8px">
-                  <div class="badge ${m.finished ? 'inverse' : ''}">${m.finished ? `${m.scoreA} - ${m.scoreB}` : 'Pendiente'}</div>
-                  ${m.finished ? `<div class="small">Ganador: ${escapeHtml((m.winnerId === m.a ? m.aName : m.bName) || '')}</div>` : `<button class="btn primary" data-capture="1" data-match='${escapeHtml(JSON.stringify(m))}'>Capturar</button>`}
-                </div>
+        <div class="match-card fade-in">
+          <div class="match-head"><div class="small">${allMatches.filter(m => m.finished).length}/${allMatches.length} capturados</div></div>
+          ${allMatches.map((m) => `
+            <div class="pair-chip" style="align-items:center">
+              <div>
+                <div style="font-weight:800">${escapeHtml(m.aName)} <span class="small">(${escapeHtml(m.aTeam)})</span></div>
+                <div class="small">vs</div>
+                <div style="font-weight:800">${escapeHtml(m.bName)} <span class="small">(${escapeHtml(m.bTeam)})</span></div>
               </div>
-            `).join('')}
-          </div>
-        `).join('')}
+              <div style="display:grid;justify-items:end;gap:8px">
+                <div class="badge ${m.finished ? 'inverse' : ''}">${m.finished ? `${m.scoreA} - ${m.scoreB}` : 'Pendiente'}</div>
+                ${m.finished ? `<div class="small">Ganador: ${escapeHtml((m.winnerId === m.a ? m.aName : m.bName) || '')}</div>` : (isAdmin ? `<button class="btn primary" data-capture="1" data-match='${escapeHtml(JSON.stringify(m))}'>Capturar</button>` : '')}
+              </div>
+            </div>
+          `).join('')}
+        </div>
       </div>
     `;
   }).join('');
@@ -158,12 +189,14 @@ function renderStandings() {
 
 function refreshVisibility() {
   const admin = isAdmin;
+  const p = state.tournament;
   el('loginBtn').classList.toggle('hidden', admin);
   el('logoutBtn').classList.toggle('hidden', !admin);
-  el('reorderBtn').classList.toggle('hidden', !admin);
-  el('startBtn').classList.toggle('hidden', !admin);
+  el('reorderBtn').classList.toggle('hidden', !admin || !!p);
+  el('startBtn').classList.toggle('hidden', !admin || !!p);
+  el('finishGroupsBtn').classList.toggle('hidden', !admin || !p || p.phase !== 'groups');
   el('resetBtn').classList.toggle('hidden', !admin);
-  el('registerCard').classList.toggle('hidden', !admin);
+  el('registerCard').classList.toggle('hidden', !admin || !!p);
 }
 
 function renderAll() {
@@ -198,13 +231,38 @@ function openResultDialog(match) {
   `;
   const setWinner = (id) => {
     winnerInput.value = id;
-    preview.querySelectorAll('button').forEach((b) => b.classList.remove('primary'));
+    preview.querySelectorAll('button').forEach((b) => {
+      b.classList.remove('btn-winner');
+      const icon = b.querySelector('.material-symbols-outlined');
+      if (icon) icon.remove();
+    });
+    const selectedBtn = id === match.a ? preview.querySelector('#winA') : preview.querySelector('#winB');
+    selectedBtn.classList.add('btn-winner');
+    selectedBtn.insertAdjacentHTML('afterbegin', '<span class="material-symbols-outlined">check</span>');
   };
   dialog.showModal();
   preview.querySelector('#winA').onclick = () => setWinner(match.a);
   preview.querySelector('#winB').onclick = () => setWinner(match.b);
   setWinner(match.a);
 }
+
+function openPairDialog(pair) {
+  const dialog = el('pairDialog');
+  const form = el('pairEditForm');
+  el('pairError').textContent = '';
+  form.elements.id.value = pair.id;
+  form.elements.team.value = pair.team;
+  form.elements.name.value = pair.name;
+  dialog.showModal();
+}
+
+el('resultForm').querySelector('[value="cancel"][type="button"]').addEventListener('click', () => {
+  el('resultDialog').close();
+});
+
+el('pairEditForm').querySelector('[value="cancel"][type="button"]').addEventListener('click', () => {
+  el('pairDialog').close();
+});
 
 async function api(path, body) {
   const res = await fetch(path, {
@@ -228,8 +286,12 @@ el('reorderBtn').addEventListener('click', async () => {
 el('startBtn').addEventListener('click', async () => {
   await api('/start');
 });
+el('finishGroupsBtn').addEventListener('click', async () => {
+  if (!confirm('¿Deseas cerrar la fase de grupos e iniciar las semifinales con los standings actuales?')) return;
+  await api('/finish-groups');
+});
 el('resetBtn').addEventListener('click', async () => {
-  if (!confirm('Este proceso elimina el torneo actual y deja el registro vacío. ¿Continuar?')) return;
+  if (!confirm('Este proceso elimina el progreso del torneo pero conserva el registro de parejas. ¿Continuar?')) return;
   await api('/reset');
 });
 
@@ -249,6 +311,17 @@ el('pairForm').addEventListener('submit', async (e) => {
   const form = new FormData(e.target);
   await api('/pairs', Object.fromEntries(form.entries()));
   e.target.reset();
+});
+
+el('pairEditForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = new FormData(e.target);
+  try {
+    await api('/pairs/update', Object.fromEntries(form.entries()));
+    el('pairDialog').close();
+  } catch (err) {
+    el('pairError').textContent = err.message;
+  }
 });
 
 el('resultForm').addEventListener('submit', async (e) => {

@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Torneo Local" type="NodeJSConfigurationType" factoryName="Node.js">
+    <option name="nodeInterpreter" value="project" />
+    <option name="workingDir" value="$PROJECT_DIR$" />
+    <option name="javascriptFile" value="$PROJECT_DIR$/server.js" />
+    <option name="applicationParameters" value="" />
+    <option name="envs">
+      <env name="PORT" value="3000" />
+      <env name="SESSION_SECRET" value="local-dev-secret" />
+      <env name="ADMIN_PASSWORD" value="atlas-2025" />
+    </option>
+    <method v="2" />
+  </configuration>
+</component>
