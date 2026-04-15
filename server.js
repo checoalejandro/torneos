@@ -5,7 +5,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
 const { readState, writeState, ensureStore } = require('./lib/store');
-const { uid, buildTournament, registerResult, resetTournament, publicState, shuffle, splitBalancedByTeam, ensureKnockout, forceSemis } = require('./lib/tournament');
+const { uid, buildTournament, registerResult, resetTournament, publicState, shuffle, splitBalancedByTeam, ensureKnockout, forceSemis, findMatchById } = require('./lib/tournament');
 
 const PORT = process.env.PORT || 3000;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'atlas-2025';
@@ -157,6 +157,28 @@ app.post('/result', requireAdmin, async (req, res) => {
     const { matchId, winnerId, loserScore } = req.body;
     const state = await getState();
     if (!state.tournament) return res.status(400).json({ ok: false, error: 'No hay torneo activo' });
+    registerResult(state.tournament, matchId, winnerId, Number(loserScore));
+    await setState(state);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(400).json({ ok: false, error: err.message });
+  }
+});
+
+app.post('/result/update', requireAdmin, async (req, res) => {
+  try {
+    const { matchId, winnerId, loserScore } = req.body;
+    const state = await getState();
+    if (!state.tournament) return res.status(400).json({ ok: false, error: 'No hay torneo activo' });
+    if (state.tournament.phase !== 'groups' && state.tournament.phase !== 'semis') {
+      return res.status(400).json({ ok: false, error: 'No se pueden editar resultados en esta fase' });
+    }
+    
+    // Forzar re-registro (limpiar previo si existe)
+    const hit = findMatchById(state.tournament, matchId);
+    if (!hit) return res.status(404).json({ ok: false, error: 'Partido no encontrado' });
+    hit.match.finished = false; // Permitir re-registro
+    
     registerResult(state.tournament, matchId, winnerId, Number(loserScore));
     await setState(state);
     res.json({ ok: true });

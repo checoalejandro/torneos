@@ -24,7 +24,12 @@ function renderPairs() {
   }
   
   const sortedPairs = [...state.pairs].sort((a, b) => {
-    if (a.group && b.group) {
+    // Primero por equipo (Atlas Chapalita antes que Avila Camacho)
+    if (a.team !== b.team) {
+      return a.team === 'Atlas Chapalita' ? -1 : 1;
+    }
+    // Segundo por grupo si existe
+    if (a.group && b.group && a.group !== b.group) {
       return a.group.localeCompare(b.group);
     }
     return 0;
@@ -146,7 +151,7 @@ function renderMatches() {
               </div>
               <div style="display:grid;justify-items:end;gap:8px">
                 <div class="badge">${m.finished ? `${m.scoreA} - ${m.scoreB}` : 'Pendiente'}</div>
-                ${m.finished ? `<div class="small">Ganador: ${escapeHtml((m.winnerId === m.a ? m.aName : m.bName) || '')}</div>` : (isAdmin ? `<button class="btn primary" data-capture="1" data-match='${escapeHtml(JSON.stringify(m))}'>Capturar</button>` : '')}
+                ${m.finished ? (isAdmin && (state.tournament.phase === 'groups' || state.tournament.phase === 'semis') ? `<button class="btn ghost" data-edit-match='${escapeHtml(JSON.stringify(m))}'>Editar</button>` : `<div class="small">Ganador: ${escapeHtml((m.winnerId === m.a ? m.aName : m.bName) || '')}</div>`) : (isAdmin ? `<button class="btn primary" data-capture="1" data-match='${escapeHtml(JSON.stringify(m))}'>Capturar</button>` : '')}
               </div>
             </div>
           `).join('')}
@@ -157,6 +162,13 @@ function renderMatches() {
 
   holder.querySelectorAll('[data-capture]').forEach((btn) => {
     btn.addEventListener('click', () => openResultDialog(JSON.parse(btn.dataset.match)));
+  });
+
+  holder.querySelectorAll('[data-edit-match]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const match = JSON.parse(btn.dataset.editMatch);
+      openResultDialog(match, true);
+    });
   });
 }
 
@@ -219,23 +231,28 @@ function openLogin() {
   el('loginDialog').showModal();
 }
 
-function openResultDialog(match) {
+function openResultDialog(match, isEdit = false) {
   const dialog = el('resultDialog');
   const form = el('resultForm');
   const preview = el('resultPreview');
   const winnerInput = form.elements.winnerId;
   const matchInput = form.elements.matchId;
   const scoreInput = form.elements.loserScore;
+  
+  form.dataset.isEdit = isEdit ? '1' : '0';
   matchInput.value = match.id;
-  scoreInput.value = 0;
+  scoreInput.value = isEdit ? (match.winnerId === match.a ? match.scoreB : match.scoreA) : 0;
+  
   const a = `${match.aName} (${match.aTeam})`;
   const b = `${match.bName} (${match.bTeam})`;
-  el('resultMatchTitle').textContent = `${match.phase === 'final' ? 'Final' : match.phase === 'semis' ? 'Semifinal' : 'Partido'} · ${a} vs ${b}`;
+  el('resultMatchTitle').textContent = `${isEdit ? 'Editar' : 'Confirmar'} ${match.phase === 'final' ? 'Final' : match.phase === 'semis' ? 'Semifinal' : 'Partido'} · ${a} vs ${b}`;
+  
   preview.innerHTML = `
     <div><strong>Partido</strong><div class="small">${a} vs ${b}</div></div>
     <div class="row"><button type="button" class="btn ghost" id="winA">Ganador: ${escapeHtml(match.aName)}</button><button type="button" class="btn ghost" id="winB">Ganador: ${escapeHtml(match.bName)}</button></div>
     <div class="small">Se registrará 11 para el ganador y el número indicado para el perdedor.</div>
   `;
+  
   const setWinner = (id) => {
     winnerInput.value = id;
     preview.querySelectorAll('button').forEach((b) => {
@@ -247,10 +264,11 @@ function openResultDialog(match) {
     selectedBtn.classList.add('btn-winner');
     selectedBtn.insertAdjacentHTML('afterbegin', '<span class="material-symbols-outlined">check</span>');
   };
+  
   dialog.showModal();
   preview.querySelector('#winA').onclick = () => setWinner(match.a);
   preview.querySelector('#winB').onclick = () => setWinner(match.b);
-  setWinner(match.a);
+  setWinner(isEdit ? match.winnerId : match.a);
 }
 
 function openPairDialog(pair) {
@@ -302,6 +320,13 @@ el('resetBtn').addEventListener('click', async () => {
   await api('/reset');
 });
 
+el('rulesBtn').addEventListener('click', () => {
+  el('rulesDialog').showModal();
+});
+
+el('closeRules').addEventListener('click', () => el('rulesDialog').close());
+el('closeRulesBtn').addEventListener('click', () => el('rulesDialog').close());
+
 el('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const password = e.target.password.value;
@@ -334,8 +359,9 @@ el('pairEditForm').addEventListener('submit', async (e) => {
 el('resultForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = e.target;
+  const isEdit = form.dataset.isEdit === '1';
   try {
-    await api('/result', {
+    await api(isEdit ? '/result/update' : '/result', {
       matchId: form.elements.matchId.value,
       winnerId: form.elements.winnerId.value,
       loserScore: form.elements.loserScore.value,

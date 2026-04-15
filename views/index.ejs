@@ -19,6 +19,7 @@
         <h1>Dual-Meet Atlas Chapalita - Ávila Camacho</h1>
       </div>
       <div class="actions">
+        <button id="rulesBtn" class="btn ghost"><span class="material-symbols-outlined">description</span> Modalidad de torneo</button>
         <button id="loginBtn" class="btn ghost"><span class="material-symbols-outlined">lock</span> Login</button>
         <button id="logoutBtn" class="btn ghost hidden"><span class="material-symbols-outlined">logout</span> Logout</button>
         <button id="reorderBtn" class="btn ghost hidden"><span class="material-symbols-outlined">shuffle</span> Re-ordenar parejas</button>
@@ -169,6 +170,31 @@
       </div>
       <div class="error" id="pairError"></div>
     </form>
+  </dialog>
+
+  <dialog id="rulesDialog" class="modal">
+    <div class="modal-card">
+      <div class="section-head">
+        <div>
+          <h2>Modalidad del Torneo</h2>
+          <p>Dual-Meet Frontenis Atlas Chapalita vs Ávila Camacho</p>
+        </div>
+        <button class="icon-btn" id="closeRules"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="help" style="margin-top:0; font-size:1rem; display:grid; gap:16px">
+        <p><strong>1. Fase de Grupos:</strong> Se dividen las parejas en dos grupos de forma equilibrada entre ambos clubes. Juegan todos contra todos dentro de su grupo.</p>
+        <p><strong>2. Puntuación:</strong> Los partidos son a <strong>10 puntos con fuera</strong>. El ganador suma 11 puntos y el perdedor suma sus puntos obtenidos (0-10).</p>
+        <p><strong>3. Clasificación:</strong> Avanzan a semifinales las <strong>dos mejores parejas</strong> de cada grupo, ordenadas por: Partidos ganados, Diferencia de puntos y Resultado directo.</p>
+        <p><strong>4. Eliminación Directa:</strong> 
+          <br>• Semifinal 1: 1º Grupo 1 vs 2º Grupo 2
+          <br>• Semifinal 2: 1º Grupo 2 vs 2º Grupo 1
+        </p>
+        <p><strong>5. Final:</strong> Los ganadores de las semifinales disputan el trofeo de campeón. No hay partido por tercer lugar.</p>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="closeRulesBtn">Entendido</button>
+      </div>
+    </div>
   </dialog>
 
   <script>
