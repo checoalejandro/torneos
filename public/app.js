@@ -77,6 +77,33 @@ function renderBracket() {
   const phase = p ? p.phase : 'registration';
   el('phaseLabel').textContent = p ? ({ groups: 'Fase de grupos', semis: 'Semifinales', final: 'Final', done: 'Torneo concluido' }[phase] || 'Fase de grupos') : 'Registro de parejas';
   
+  // Renderizar ganador global si el torneo inició
+  const globalSec = el('globalWinnerSection');
+  const stats = state.globalStats;
+  const hasFinishedMatches = stats && stats.teams && stats.teams.some(t => t.pointsFor > 0 || t.wins > 0);
+
+  if (p && hasFinishedMatches) {
+    globalSec.classList.remove('hidden');
+    const textEl = el('globalWinnerText');
+    const statsEl = el('globalStatsText');
+    
+    if (stats.winner) {
+      textEl.innerHTML = `<span class="material-symbols-outlined" style="color:var(--gold)">military_tech</span> Club Líder: ${fmtTeam(stats.winner)}`;
+    } else if (stats.isDraw) {
+      textEl.innerHTML = `<span class="material-symbols-outlined">balance</span> Empate Global entre Clubes`;
+    } else {
+      textEl.innerHTML = `<span class="material-symbols-outlined">analytics</span> Estadísticas Globales`;
+    }
+
+    const teamsHtml = stats.teams.map(t => `
+      <div style="margin-bottom:4px"><strong>${fmtTeam(t.name)}:</strong> ${t.pointsFor} pts / ${t.wins} pg / ${t.diff} diff</div>
+    `).join('');
+    
+    statsEl.innerHTML = teamsHtml;
+  } else {
+    globalSec.classList.add('hidden');
+  }
+
   if (state.champion) {
     el('championPill').innerHTML = `<span class="material-symbols-outlined" style="color:inherit">trophy</span> Campeón: ${escapeHtml(state.champion.name)}`;
     el('championPill').className = 'pill gold fade-in';
@@ -213,7 +240,7 @@ function refreshVisibility() {
   el('logoutBtn').classList.toggle('hidden', !admin);
   el('reorderBtn').classList.toggle('hidden', !admin || !!p);
   el('startBtn').classList.toggle('hidden', !admin || !!p);
-  el('finishGroupsBtn').classList.toggle('hidden', !admin || !p || p.phase !== 'groups');
+  el('finishGroupsBtn').classList.toggle('hidden', !admin || !p || p.phase !== 'groups' || (p.semis && p.semis.length > 0));
   el('resetBtn').classList.toggle('hidden', !admin);
   el('registerCard').classList.toggle('hidden', !admin || !!p);
 
