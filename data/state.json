@@ -1,14 +1,9 @@
 {
   "pairs": [
     {
-      "id": "pair_kiw6g0jj_mnzdl10a",
-      "team": "Atlas Chapalita",
-      "name": "Alex Acosta / Sergio Acosta"
-    },
-    {
-      "id": "pair_jg8ri0yu_mnzdme3e",
-      "team": "Atlas Chapalita",
-      "name": "Vicente Zendejas / Enrique Rojas"
+      "id": "pair_7b31o8aa_mnzdnkj4",
+      "team": "Avila Camacho",
+      "name": "Alejandro León / Bryant Ruelas"
     },
     {
       "id": "pair_jp3uu9cz_mnzdmozi",
@@ -16,34 +11,14 @@
       "name": "Miguel Hernández / Alberto Núñez"
     },
     {
-      "id": "pair_6c0exag1_mnzdn647",
+      "id": "pair_79fj2sau_mnzdrjht",
       "team": "Atlas Chapalita",
-      "name": "Gil Hernández / Juan José"
-    },
-    {
-      "id": "pair_7b31o8aa_mnzdnkj4",
-      "team": "Avila Camacho",
-      "name": "Alejandro León / Bryant Ruelas"
-    },
-    {
-      "id": "pair_zlex22yy_mnzdnuqp",
-      "team": "Avila Camacho",
-      "name": "Samuel Ramírez / Omar Álvarez"
+      "name": "Omar González / Pablo Villafaña"
     },
     {
       "id": "pair_cn13ukrp_mnzdo810",
       "team": "Avila Camacho",
       "name": "Nazareo García / Elvis Jauregui"
-    },
-    {
-      "id": "pair_hy8je7f0_mnzdok6h",
-      "team": "Avila Camacho",
-      "name": "Moisés Mendoza / Juan Ramón Álvarez"
-    },
-    {
-      "id": "pair_1um9t8t8_mnzdp3km",
-      "team": "Avila Camacho",
-      "name": "Tereso Romero / José A García"
     },
     {
       "id": "pair_i5im96df_mnzdpit6",
@@ -56,10 +31,441 @@
       "name": "Mario Jauregui / Ángel Jauregui"
     },
     {
-      "id": "pair_79fj2sau_mnzdrjht",
+      "id": "pair_jg8ri0yu_mnzdme3e",
       "team": "Atlas Chapalita",
-      "name": "Omar González / Pablo Villafaña"
+      "name": "Vicente Zendejas / Enrique Rojas"
+    },
+    {
+      "id": "pair_zlex22yy_mnzdnuqp",
+      "team": "Avila Camacho",
+      "name": "Samuel Ramírez / Omar Álvarez"
+    },
+    {
+      "id": "pair_hy8je7f0_mnzdok6h",
+      "team": "Avila Camacho",
+      "name": "Moisés Mendoza / Juan Ramón Álvarez"
+    },
+    {
+      "id": "pair_6c0exag1_mnzdn647",
+      "team": "Atlas Chapalita",
+      "name": "Gil Hernández / Juan José"
+    },
+    {
+      "id": "pair_kiw6g0jj_mnzdl10a",
+      "team": "Atlas Chapalita",
+      "name": "Alex Acosta / Sergio Acosta"
+    },
+    {
+      "id": "pair_1um9t8t8_mnzdp3km",
+      "team": "Avila Camacho",
+      "name": "Tereso Romero / José A García"
     }
   ],
-  "tournament": null
+  "tournament": {
+    "startedAt": "2026-04-15T01:44:52.259Z",
+    "phase": "groups",
+    "groups": [
+      {
+        "id": 1,
+        "name": "Grupo 1",
+        "court": 1,
+        "pairs": [
+          {
+            "id": "pair_cn13ukrp_mnzdo810",
+            "team": "Avila Camacho",
+            "name": "Nazareo García / Elvis Jauregui"
+          },
+          {
+            "id": "pair_zlex22yy_mnzdnuqp",
+            "team": "Avila Camacho",
+            "name": "Samuel Ramírez / Omar Álvarez"
+          },
+          {
+            "id": "pair_i5im96df_mnzdpit6",
+            "team": "Avila Camacho",
+            "name": "Jesús Zavala / Juan C García"
+          },
+          {
+            "id": "pair_7b31o8aa_mnzdnkj4",
+            "team": "Avila Camacho",
+            "name": "Alejandro León / Bryant Ruelas"
+          },
+          {
+            "id": "pair_6c0exag1_mnzdn647",
+            "team": "Atlas Chapalita",
+            "name": "Gil Hernández / Juan José"
+          },
+          {
+            "id": "pair_jg8ri0yu_mnzdme3e",
+            "team": "Atlas Chapalita",
+            "name": "Vicente Zendejas / Enrique Rojas"
+          }
+        ],
+        "matches": [
+          [
+            {
+              "id": "m_i8pvvqe0_mnze18gz",
+              "a": "pair_cn13ukrp_mnzdo810",
+              "b": "pair_jg8ri0yu_mnzdme3e",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_t6i414lr_mnze18gz",
+              "a": "pair_zlex22yy_mnzdnuqp",
+              "b": "pair_6c0exag1_mnzdn647",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_2ugd145e_mnze18gz",
+              "a": "pair_i5im96df_mnzdpit6",
+              "b": "pair_7b31o8aa_mnzdnkj4",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_z20ac8wl_mnze18gz",
+              "a": "pair_cn13ukrp_mnzdo810",
+              "b": "pair_6c0exag1_mnzdn647",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_1mqs1q73_mnze18gz",
+              "a": "pair_jg8ri0yu_mnzdme3e",
+              "b": "pair_7b31o8aa_mnzdnkj4",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_334k0mkc_mnze18gz",
+              "a": "pair_zlex22yy_mnzdnuqp",
+              "b": "pair_i5im96df_mnzdpit6",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_ga5ohlwo_mnze18gz",
+              "a": "pair_cn13ukrp_mnzdo810",
+              "b": "pair_7b31o8aa_mnzdnkj4",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_rkz46qg2_mnze18gz",
+              "a": "pair_6c0exag1_mnzdn647",
+              "b": "pair_i5im96df_mnzdpit6",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_8sszl9fl_mnze18gz",
+              "a": "pair_jg8ri0yu_mnzdme3e",
+              "b": "pair_zlex22yy_mnzdnuqp",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_io2mhixs_mnze18gz",
+              "a": "pair_cn13ukrp_mnzdo810",
+              "b": "pair_i5im96df_mnzdpit6",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_5zs1x98h_mnze18gz",
+              "a": "pair_7b31o8aa_mnzdnkj4",
+              "b": "pair_zlex22yy_mnzdnuqp",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_t2h9jlul_mnze18gz",
+              "a": "pair_6c0exag1_mnzdn647",
+              "b": "pair_jg8ri0yu_mnzdme3e",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_g8a5s30h_mnze18gz",
+              "a": "pair_cn13ukrp_mnzdo810",
+              "b": "pair_zlex22yy_mnzdnuqp",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_110eugzw_mnze18gz",
+              "a": "pair_i5im96df_mnzdpit6",
+              "b": "pair_jg8ri0yu_mnzdme3e",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_ay4iqzt1_mnze18gz",
+              "a": "pair_7b31o8aa_mnzdnkj4",
+              "b": "pair_6c0exag1_mnzdn647",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ]
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Grupo 2",
+        "court": 2,
+        "pairs": [
+          {
+            "id": "pair_4d30q8sn_mnzdpw6n",
+            "team": "Avila Camacho",
+            "name": "Mario Jauregui / Ángel Jauregui"
+          },
+          {
+            "id": "pair_1um9t8t8_mnzdp3km",
+            "team": "Avila Camacho",
+            "name": "Tereso Romero / José A García"
+          },
+          {
+            "id": "pair_hy8je7f0_mnzdok6h",
+            "team": "Avila Camacho",
+            "name": "Moisés Mendoza / Juan Ramón Álvarez"
+          },
+          {
+            "id": "pair_kiw6g0jj_mnzdl10a",
+            "team": "Atlas Chapalita",
+            "name": "Alex Acosta / Sergio Acosta"
+          },
+          {
+            "id": "pair_jp3uu9cz_mnzdmozi",
+            "team": "Atlas Chapalita",
+            "name": "Miguel Hernández / Alberto Núñez"
+          },
+          {
+            "id": "pair_79fj2sau_mnzdrjht",
+            "team": "Atlas Chapalita",
+            "name": "Omar González / Pablo Villafaña"
+          }
+        ],
+        "matches": [
+          [
+            {
+              "id": "m_0nr76o0u_mnze18gz",
+              "a": "pair_4d30q8sn_mnzdpw6n",
+              "b": "pair_79fj2sau_mnzdrjht",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_7l3hw2z9_mnze18gz",
+              "a": "pair_1um9t8t8_mnzdp3km",
+              "b": "pair_jp3uu9cz_mnzdmozi",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_92v8vpwu_mnze18gz",
+              "a": "pair_hy8je7f0_mnzdok6h",
+              "b": "pair_kiw6g0jj_mnzdl10a",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_cfm9j58c_mnze18gz",
+              "a": "pair_4d30q8sn_mnzdpw6n",
+              "b": "pair_jp3uu9cz_mnzdmozi",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_9zaegfc5_mnze18gz",
+              "a": "pair_79fj2sau_mnzdrjht",
+              "b": "pair_kiw6g0jj_mnzdl10a",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_jyr2xor0_mnze18gz",
+              "a": "pair_1um9t8t8_mnzdp3km",
+              "b": "pair_hy8je7f0_mnzdok6h",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_7m5145uz_mnze18gz",
+              "a": "pair_4d30q8sn_mnzdpw6n",
+              "b": "pair_kiw6g0jj_mnzdl10a",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_wj0d65rw_mnze18gz",
+              "a": "pair_jp3uu9cz_mnzdmozi",
+              "b": "pair_hy8je7f0_mnzdok6h",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_qi3diei5_mnze18gz",
+              "a": "pair_79fj2sau_mnzdrjht",
+              "b": "pair_1um9t8t8_mnzdp3km",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_n9vejgui_mnze18gz",
+              "a": "pair_4d30q8sn_mnzdpw6n",
+              "b": "pair_hy8je7f0_mnzdok6h",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_updnim71_mnze18gz",
+              "a": "pair_kiw6g0jj_mnzdl10a",
+              "b": "pair_1um9t8t8_mnzdp3km",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_tbk2vizi_mnze18gz",
+              "a": "pair_jp3uu9cz_mnzdmozi",
+              "b": "pair_79fj2sau_mnzdrjht",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ],
+          [
+            {
+              "id": "m_v8eej7s0_mnze18gz",
+              "a": "pair_4d30q8sn_mnzdpw6n",
+              "b": "pair_1um9t8t8_mnzdp3km",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_gol0poda_mnze18gz",
+              "a": "pair_hy8je7f0_mnzdok6h",
+              "b": "pair_79fj2sau_mnzdrjht",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            },
+            {
+              "id": "m_twrldin2_mnze18gz",
+              "a": "pair_kiw6g0jj_mnzdl10a",
+              "b": "pair_jp3uu9cz_mnzdmozi",
+              "scoreA": null,
+              "scoreB": null,
+              "winnerId": null,
+              "finished": false,
+              "phase": "groups"
+            }
+          ]
+        ]
+      }
+    ],
+    "semis": [],
+    "final": null,
+    "champion": null
+  }
 }

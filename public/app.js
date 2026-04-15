@@ -216,6 +216,19 @@ function refreshVisibility() {
   el('finishGroupsBtn').classList.toggle('hidden', !admin || !p || p.phase !== 'groups');
   el('resetBtn').classList.toggle('hidden', !admin);
   el('registerCard').classList.toggle('hidden', !admin || !!p);
+
+  // Mover parejas abajo si el torneo inició
+  const pairsSec = el('pairsSection');
+  if (p) {
+    if (pairsSec.nextElementSibling) {
+      el('app').appendChild(pairsSec);
+    }
+  } else {
+    const bracketSec = el('bracketSection');
+    if (pairsSec.previousElementSibling !== bracketSec) {
+      bracketSec.after(pairsSec);
+    }
+  }
 }
 
 function renderAll() {
