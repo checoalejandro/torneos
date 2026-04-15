@@ -71,7 +71,14 @@ function renderBracket() {
   const p = state.tournament;
   const phase = p ? p.phase : 'registration';
   el('phaseLabel').textContent = p ? ({ groups: 'Fase de grupos', semis: 'Semifinales', final: 'Final', done: 'Torneo concluido' }[phase] || 'Fase de grupos') : 'Registro de parejas';
-  el('championPill').textContent = state.champion ? `Campeón: ${state.champion.name}` : 'Sin campeón';
+  
+  if (state.champion) {
+    el('championPill').innerHTML = `<span class="material-symbols-outlined" style="color:inherit">trophy</span> Campeón: ${escapeHtml(state.champion.name)}`;
+    el('championPill').className = 'pill gold fade-in';
+  } else {
+    el('championPill').textContent = 'Sin campeón';
+    el('championPill').className = 'pill';
+  }
 
   if (!p) {
     bracket.innerHTML = `<div class="small">El cuadro aparecerá al iniciar el torneo.</div>`;
@@ -82,8 +89,8 @@ function renderBracket() {
     <div class="bracket-card">
       <div class="team-badge">${m.label}</div>
       <div style="display:grid;gap:8px;margin-top:10px">
-        <div><strong>${escapeHtml(m.aName || 'Pendiente')}</strong></div>
-        <div><strong>${escapeHtml(m.bName || 'Pendiente')}</strong></div>
+        <div class="${m.finished && m.winnerId === m.a ? 'winner-highlight' : ''}" style="padding:2px 6px;border-radius:4px"><strong>${escapeHtml(m.aName || 'Pendiente')}</strong> <span class="small" style="${m.finished && m.winnerId === m.a ? 'color:rgba(255,255,255,.8)' : ''}">(${escapeHtml(m.aTeam)})</span></div>
+        <div class="${m.finished && m.winnerId === m.b ? 'winner-highlight' : ''}" style="padding:2px 6px;border-radius:4px"><strong>${escapeHtml(m.bName || 'Pendiente')}</strong> <span class="small" style="${m.finished && m.winnerId === m.b ? 'color:rgba(255,255,255,.8)' : ''}">(${escapeHtml(m.bTeam)})</span></div>
       </div>
       <div class="small" style="margin-top:10px">${m.finished ? `${m.scoreA} - ${m.scoreB} · ganador: ${escapeHtml(m.winnerId === m.a ? m.aName : m.bName)}` : 'Pendiente de resultado'}</div>
       ${isAdmin && !m.finished && m.a && m.b ? `<button class="btn primary" style="margin-top:10px;width:100%" data-capture="1" data-match='${escapeHtml(JSON.stringify(m))}'>Capturar</button>` : ''}
@@ -94,10 +101,10 @@ function renderBracket() {
     <div class="bracket-card">
       <div class="team-badge">Final</div>
       <div style="display:grid;gap:8px;margin-top:10px">
-        <div><strong>${escapeHtml(p.final.aName || 'Pendiente')}</strong></div>
-        <div><strong>${escapeHtml(p.final.bName || 'Pendiente')}</strong></div>
+        <div class="${p.final.finished && p.final.winnerId === p.final.a ? 'winner-highlight' : ''}" style="padding:2px 6px;border-radius:4px"><strong>${escapeHtml(p.final.aName || 'Pendiente')}</strong> <span class="small" style="${p.final.finished && p.final.winnerId === p.final.a ? 'color:rgba(255,255,255,.8)' : ''}">(${escapeHtml(p.final.aTeam)})</span></div>
+        <div class="${p.final.finished && p.final.winnerId === p.final.b ? 'winner-highlight' : ''}" style="padding:2px 6px;border-radius:4px"><strong>${escapeHtml(p.final.bName || 'Pendiente')}</strong> <span class="small" style="${p.final.finished && p.final.winnerId === p.final.b ? 'color:rgba(255,255,255,.8)' : ''}">(${escapeHtml(p.final.bTeam)})</span></div>
       </div>
-      <div class="small" style="margin-top:10px">${p.final.finished ? `Campeón: ${escapeHtml(state.champion?.name || '')}` : 'Pendiente de resultado'}</div>
+      <div class="small" style="margin-top:10px">${p.final.finished ? `<span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;color:var(--gold)">trophy</span> Campeón: ${escapeHtml(state.champion?.name || '')}` : 'Pendiente de resultado'}</div>
       ${isAdmin && !p.final.finished && p.final.a && p.final.b ? `<button class="btn primary" style="margin-top:10px;width:100%" data-capture="1" data-match='${escapeHtml(JSON.stringify(p.final))}'>Capturar</button>` : ''}
     </div>
   ` : `<div class="bracket-card"><div class="small">La final aparecerá cuando se definan las semifinales.</div></div>`;
@@ -133,12 +140,12 @@ function renderMatches() {
           ${allMatches.map((m) => `
             <div class="pair-chip" style="align-items:center">
               <div>
-                <div style="font-weight:800">${escapeHtml(m.aName)} <span class="small">(${escapeHtml(m.aTeam)})</span></div>
+                <div style="font-weight:800;display:inline-block;padding:2px 6px;border-radius:4px" class="${m.finished && m.winnerId === m.a ? 'winner-highlight' : ''}">${escapeHtml(m.aName)} <span class="small" style="${m.finished && m.winnerId === m.a ? 'color:rgba(255,255,255,.8)' : ''}">(${escapeHtml(m.aTeam)})</span></div>
                 <div class="small">vs</div>
-                <div style="font-weight:800">${escapeHtml(m.bName)} <span class="small">(${escapeHtml(m.bTeam)})</span></div>
+                <div style="font-weight:800;display:inline-block;padding:2px 6px;border-radius:4px" class="${m.finished && m.winnerId === m.b ? 'winner-highlight' : ''}">${escapeHtml(m.bName)} <span class="small" style="${m.finished && m.winnerId === m.b ? 'color:rgba(255,255,255,.8)' : ''}">(${escapeHtml(m.bTeam)})</span></div>
               </div>
               <div style="display:grid;justify-items:end;gap:8px">
-                <div class="badge ${m.finished ? 'inverse' : ''}">${m.finished ? `${m.scoreA} - ${m.scoreB}` : 'Pendiente'}</div>
+                <div class="badge">${m.finished ? `${m.scoreA} - ${m.scoreB}` : 'Pendiente'}</div>
                 ${m.finished ? `<div class="small">Ganador: ${escapeHtml((m.winnerId === m.a ? m.aName : m.bName) || '')}</div>` : (isAdmin ? `<button class="btn primary" data-capture="1" data-match='${escapeHtml(JSON.stringify(m))}'>Capturar</button>` : '')}
               </div>
             </div>
@@ -156,7 +163,7 @@ function renderMatches() {
 function standingsRows(standings) {
   return standings.map((s, idx) => `
     <tr class="${idx === 0 ? 'row-top-1' : idx === 1 ? 'row-top-2' : ''}">
-      <td><strong>${escapeHtml(s.name)}</strong><div class="small">${fmtTeam(s.team)}</div></td>
+      <td><div><strong>${escapeHtml(s.name)}</strong></div><div class="small">${fmtTeam(s.team)}</div></td>
       <td>${s.played}</td>
       <td>${s.wins}</td>
       <td>${s.pointsFor}</td>

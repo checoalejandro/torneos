@@ -33,7 +33,7 @@
   ],
   "tournament": {
     "startedAt": "2026-04-15T00:36:12.559Z",
-    "phase": "groups",
+    "phase": "done",
     "groups": [
       {
         "id": 1,
@@ -62,10 +62,10 @@
               "id": "m_gdkpgxwo_mnzbkxov",
               "a": "pair_tkqmjgnk_mnzawytv",
               "b": "pair_ejunotd2_mnzawms1",
-              "scoreA": null,
-              "scoreB": null,
-              "winnerId": null,
-              "finished": false,
+              "scoreA": 6,
+              "scoreB": 11,
+              "winnerId": "pair_ejunotd2_mnzawms1",
+              "finished": true,
               "phase": "groups"
             }
           ],
@@ -74,10 +74,10 @@
               "id": "m_228mmazz_mnzbkxov",
               "a": "pair_s50vv4j9_mnzax2rh",
               "b": "pair_ejunotd2_mnzawms1",
-              "scoreA": null,
-              "scoreB": null,
-              "winnerId": null,
-              "finished": false,
+              "scoreA": 11,
+              "scoreB": 5,
+              "winnerId": "pair_s50vv4j9_mnzax2rh",
+              "finished": true,
               "phase": "groups"
             }
           ],
@@ -86,10 +86,10 @@
               "id": "m_jl8f8z21_mnzbkxov",
               "a": "pair_s50vv4j9_mnzax2rh",
               "b": "pair_tkqmjgnk_mnzawytv",
-              "scoreA": null,
-              "scoreB": null,
-              "winnerId": null,
-              "finished": false,
+              "scoreA": 11,
+              "scoreB": 9,
+              "winnerId": "pair_s50vv4j9_mnzax2rh",
+              "finished": true,
               "phase": "groups"
             }
           ]
@@ -122,10 +122,10 @@
               "id": "m_cpd8x7nw_mnzbkxov",
               "a": "pair_bjsjktjz_mnzaw8ae",
               "b": "pair_fg4s0aw3_mnzaxbem",
-              "scoreA": null,
-              "scoreB": null,
-              "winnerId": null,
-              "finished": false,
+              "scoreA": 11,
+              "scoreB": 4,
+              "winnerId": "pair_bjsjktjz_mnzaw8ae",
+              "finished": true,
               "phase": "groups"
             }
           ],
@@ -134,10 +134,10 @@
               "id": "m_xhvgpjnb_mnzbkxov",
               "a": "pair_2h2kc76a_mnzaxgug",
               "b": "pair_fg4s0aw3_mnzaxbem",
-              "scoreA": null,
-              "scoreB": null,
-              "winnerId": null,
-              "finished": false,
+              "scoreA": 10,
+              "scoreB": 11,
+              "winnerId": "pair_fg4s0aw3_mnzaxbem",
+              "finished": true,
               "phase": "groups"
             }
           ],
@@ -146,18 +146,51 @@
               "id": "m_gca99gxp_mnzbkxov",
               "a": "pair_2h2kc76a_mnzaxgug",
               "b": "pair_bjsjktjz_mnzaw8ae",
-              "scoreA": null,
-              "scoreB": null,
-              "winnerId": null,
-              "finished": false,
+              "scoreA": 8,
+              "scoreB": 11,
+              "winnerId": "pair_bjsjktjz_mnzaw8ae",
+              "finished": true,
               "phase": "groups"
             }
           ]
         ]
       }
     ],
-    "semis": [],
-    "final": null,
-    "champion": null
+    "semis": [
+      {
+        "id": "semi_v1se5psm_mnzbowyp",
+        "label": "Semifinal 1",
+        "a": "pair_s50vv4j9_mnzax2rh",
+        "b": "pair_fg4s0aw3_mnzaxbem",
+        "scoreA": 5,
+        "scoreB": 11,
+        "winnerId": "pair_fg4s0aw3_mnzaxbem",
+        "finished": true,
+        "phase": "semis"
+      },
+      {
+        "id": "semi_g5fz2zvj_mnzbowyp",
+        "label": "Semifinal 2",
+        "a": "pair_bjsjktjz_mnzaw8ae",
+        "b": "pair_ejunotd2_mnzawms1",
+        "scoreA": 3,
+        "scoreB": 11,
+        "winnerId": "pair_ejunotd2_mnzawms1",
+        "finished": true,
+        "phase": "semis"
+      }
+    ],
+    "final": {
+      "id": "final_09f7b609_mnzbpmj1",
+      "label": "Final",
+      "a": "pair_fg4s0aw3_mnzaxbem",
+      "b": "pair_ejunotd2_mnzawms1",
+      "scoreA": 9,
+      "scoreB": 11,
+      "winnerId": "pair_ejunotd2_mnzawms1",
+      "finished": true,
+      "phase": "final"
+    },
+    "champion": "pair_ejunotd2_mnzawms1"
   }
 }
