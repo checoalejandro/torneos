@@ -44,6 +44,9 @@ async function getState() {
     const before = JSON.stringify(state);
     ensureKnockout(state.tournament);
     if (before !== JSON.stringify(state)) await writeState(state);
+  } else {
+    // Asegurar valores por defecto en registro
+    if (state.oneGroup === undefined) state.oneGroup = false;
   }
   return state;
 }
@@ -85,7 +88,7 @@ app.post('/pairs', requireAdmin, async (req, res) => {
   if (!team || !name) return res.status(400).json({ ok: false, error: 'Faltan datos' });
   const state = await getState();
   if (state.tournament) return res.status(400).json({ ok: false, error: 'No puedes registrar parejas con el torneo iniciado' });
-  state.pairs.push({ id: uid('pair'), team, name: name.trim() });
+  state.pairs.push({ id: uid('pair'), team, name: name.trim(), confirmed: false });
   await setState(state);
   res.json({ ok: true });
 });
@@ -126,12 +129,42 @@ app.post('/pairs/delete', requireAdmin, async (req, res) => {
 app.post('/start', requireAdmin, async (req, res) => {
   const state = await getState();
   if (state.tournament) return res.status(400).json({ ok: false, error: 'El torneo ya inició' });
-  if (state.pairs.length < 4) return res.status(400).json({ ok: false, error: 'Se requieren al menos 4 parejas' });
-  const teamCounts = state.pairs.reduce((acc, p) => ((acc[p.team] = (acc[p.team] || 0) + 1), acc), {});
+  const confirmedPairs = state.pairs.filter(p => p.confirmed);
+  if (confirmedPairs.length < 4) return res.status(400).json({ ok: false, error: 'Se requieren al menos 4 parejas confirmadas' });
+  const teamCounts = confirmedPairs.reduce((acc, p) => ((acc[p.team] = (acc[p.team] || 0) + 1), acc), {});
   if (!teamCounts['Atlas Chapalita'] || !teamCounts['Avila Camacho']) {
-    return res.status(400).json({ ok: false, error: 'Debe haber parejas de ambos equipos' });
+    return res.status(400).json({ ok: false, error: 'Debe haber parejas confirmadas de ambos equipos' });
   }
-  state.tournament = buildTournament(state.pairs);
+  state.tournament = buildTournament(state.pairs, Boolean(state.oneGroup));
+  await setState(state);
+  res.json({ ok: true });
+});
+
+app.post('/pairs/confirm', requireAdmin, async (req, res) => {
+  const { id } = req.body;
+  const state = await getState();
+  const pair = state.pairs.find(p => p.id === id);
+  if (!pair) return res.status(404).json({ ok: false, error: 'Pareja no encontrada' });
+  pair.confirmed = true;
+  await setState(state);
+  res.json({ ok: true });
+});
+
+app.post('/pairs/unconfirm', requireAdmin, async (req, res) => {
+  const { id } = req.body;
+  const state = await getState();
+  const pair = state.pairs.find(p => p.id === id);
+  if (!pair) return res.status(404).json({ ok: false, error: 'Pareja no encontrada' });
+  pair.confirmed = false;
+  await setState(state);
+  res.json({ ok: true });
+});
+
+app.post('/tournament/set-groups', requireAdmin, async (req, res) => {
+  const { oneGroup } = req.body;
+  const state = await getState();
+  if (state.tournament) return res.status(400).json({ ok: false, error: 'No se puede cambiar el modo con el torneo iniciado' });
+  state.oneGroup = Boolean(oneGroup);
   await setState(state);
   res.json({ ok: true });
 });

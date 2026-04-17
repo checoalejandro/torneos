@@ -8,12 +8,14 @@
     {
       "id": "pair_jp3uu9cz_mnzdmozi",
       "team": "Atlas Chapalita",
-      "name": "Miguel Hernández / Alberto Núñez"
+      "name": "Miguel Hernández / Alberto Núñez",
+      "confirmed": false
     },
     {
       "id": "pair_79fj2sau_mnzdrjht",
       "team": "Atlas Chapalita",
-      "name": "Omar González / Pablo Villafaña"
+      "name": "Omar González / Pablo Villafaña",
+      "confirmed": false
     },
     {
       "id": "pair_cn13ukrp_mnzdo810",
@@ -61,5 +63,6 @@
       "name": "Tereso Romero / José A García"
     }
   ],
-  "tournament": null
+  "tournament": null,
+  "oneGroup": false
 }

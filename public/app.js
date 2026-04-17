@@ -37,14 +37,22 @@ function renderPairs() {
 
   list.innerHTML = sortedPairs.map((p, idx) => `
     <div class="pair-chip fade-in">
-      <div>
-        <div class="team-badge">${fmtTeam(p.team)} ${p.group ? `· ${p.group}` : ''}</div>
-        <div style="font-weight:800;font-size:1.05rem">${escapeHtml(p.name)}</div>
+      <div style="display:flex; align-items:center; gap:12px">
+        ${p.confirmed ? '<div class="badge-round-green"><span class="material-symbols-outlined" style="font-size:16px">check</span></div>' : ''}
+        <div>
+          <div class="team-badge">${fmtTeam(p.team)} ${p.group ? `· ${p.group}` : ''}</div>
+          <div style="font-weight:800;font-size:1.05rem">${escapeHtml(p.name)}</div>
+        </div>
       </div>
       <div class="pair-side">
         <div class="badge">#${idx + 1}</div>
         ${isAdmin && !state.tournament ? `
           <div class="pair-actions">
+            ${p.confirmed ? `
+              <button class="btn ghost" type="button" data-unconfirm-pair="${escapeHtml(p.id)}"><span class="material-symbols-outlined">close</span> Descartar</button>
+            ` : `
+              <button class="btn ghost" type="button" data-confirm-pair="${escapeHtml(p.id)}"><span class="material-symbols-outlined">check</span> Confirmar</button>
+            `}
             <button class="btn ghost" type="button" data-edit-pair="${escapeHtml(p.id)}"><span class="material-symbols-outlined">edit</span> Editar</button>
             <button class="btn ghost" type="button" data-delete-pair="${escapeHtml(p.id)}"><span class="material-symbols-outlined">delete</span> Eliminar</button>
           </div>
@@ -52,6 +60,14 @@ function renderPairs() {
       </div>
     </div>
   `).join('');
+
+  list.querySelectorAll('[data-confirm-pair]').forEach((btn) => {
+    btn.addEventListener('click', () => api('/pairs/confirm', { id: btn.dataset.confirmPair }));
+  });
+
+  list.querySelectorAll('[data-unconfirm-pair]').forEach((btn) => {
+    btn.addEventListener('click', () => api('/pairs/unconfirm', { id: btn.dataset.unconfirmPair }));
+  });
 
   list.querySelectorAll('[data-edit-pair]').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -240,6 +256,8 @@ function refreshVisibility() {
   el('logoutBtn').classList.toggle('hidden', !admin);
   el('reorderBtn').classList.toggle('hidden', !admin || !!p);
   el('startBtn').classList.toggle('hidden', !admin || !!p);
+  el('oneGroupBtn').classList.toggle('hidden', !admin || !!p || !!state.oneGroup);
+  el('twoGroupsBtn').classList.toggle('hidden', !admin || !!p || !state.oneGroup);
   el('finishGroupsBtn').classList.toggle('hidden', !admin || !p || p.phase !== 'groups' || (p.semis && p.semis.length > 0));
   el('resetBtn').classList.toggle('hidden', !admin);
   el('registerCard').classList.toggle('hidden', !admin || !!p);
@@ -257,6 +275,9 @@ function refreshVisibility() {
     }
   }
 }
+
+el('oneGroupBtn').onclick = () => api('/tournament/set-groups', { oneGroup: true });
+el('twoGroupsBtn').onclick = () => api('/tournament/set-groups', { oneGroup: false });
 
 function renderAll() {
   refreshVisibility();
