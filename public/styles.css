@@ -15,10 +15,10 @@
 html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:'Saira',system-ui,sans-serif}
 body{min-height:100vh;overflow-x:hidden}
 .bg-grid{position:fixed;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,0));pointer-events:none;opacity:.35}
-.shell{position:relative;max-width:1480px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
-.shell > *:not(.topbar){margin-left:24px;margin-right:24px}
-.shell > *:last-child{margin-bottom:24px}
-.topbar{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:24px 48px;border:1px solid #000;border-radius:24px;background:#000;box-shadow:var(--shadow);color:#fff;margin-top:20px}
+.shell{position:relative;display:flex;flex-direction:column;gap:20px}
+.shell > *:not(.topbar){max-width:1480px;margin-left:auto;margin-right:auto;width:calc(100% - 48px)}
+.topbar{width:100%;padding:24px 0;background:#000;box-shadow:var(--shadow);color:#fff;margin-top:0}
+.topbar-inner{max-width:1480px;margin:0 auto;padding:0 48px;display:flex;justify-content:space-between;gap:16px;align-items:flex-start;width:100%}
 .topbar h1,.topbar .eyebrow,.topbar p{color:#fff}
 .topbar .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.3)}
 .topbar .btn.ghost:hover{background:rgba(255,255,255,.1);border-color:#fff}
@@ -91,17 +91,19 @@ input:focus,select:focus{border-color:#111;box-shadow:0 0 0 4px rgba(0,0,0,.06)}
 .fade-in{animation:fadeIn .35s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media (max-width: 1100px){
-  .topbar,.grid.two-up,.bracket-layout{grid-template-columns:1fr;display:grid}
-  .shell > *:not(.topbar){margin-left:14px;margin-right:14px}
-  .topbar{padding:30px 24px}
+  .topbar-inner,.grid.two-up,.bracket-layout{grid-template-columns:1fr;display:grid}
+  .shell > *:not(.topbar){width:calc(100% - 28px)}
+  .topbar{padding:30px 0}
+  .topbar-inner{padding:0 24px}
   .actions{justify-content:flex-start}
   .form{grid-template-columns:1fr}
 }
 @media (max-width: 720px){
   .shell{padding:0}
-  .shell > *:not(.topbar){margin-left:14px;margin-right:14px}
-  .topbar,.card{padding:16px}
-  .topbar{border-radius:24px;padding:24px 16px;margin-top:14px}
+  .shell > *:not(.topbar){width:calc(100% - 28px)}
+  .topbar-inner,.card{padding:16px}
+  .topbar{padding:24px 0;margin-top:0}
+  .topbar-inner{padding:0 16px}
   .btn,.tab{width:100%;justify-content:center}
   .actions{width:100%}
   .pair-side,.pair-actions{width:100%;justify-content:stretch}
