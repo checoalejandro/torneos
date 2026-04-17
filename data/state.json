@@ -3,7 +3,8 @@
     {
       "id": "pair_7b31o8aa_mnzdnkj4",
       "team": "Avila Camacho",
-      "name": "Alejandro León / Bryant Ruelas"
+      "name": "Alejandro León / Bryant Ruelas",
+      "confirmed": false
     },
     {
       "id": "pair_jp3uu9cz_mnzdmozi",
@@ -20,42 +21,50 @@
     {
       "id": "pair_cn13ukrp_mnzdo810",
       "team": "Avila Camacho",
-      "name": "Nazareo García / Elvis Jauregui"
+      "name": "Nazareo García / Elvis Jauregui",
+      "confirmed": false
     },
     {
       "id": "pair_i5im96df_mnzdpit6",
       "team": "Avila Camacho",
-      "name": "Jesús Zavala / Juan C García"
+      "name": "Jesús Zavala / Juan C García",
+      "confirmed": false
     },
     {
       "id": "pair_4d30q8sn_mnzdpw6n",
       "team": "Avila Camacho",
-      "name": "Mario Jauregui / Ángel Jauregui"
+      "name": "Mario Jauregui / Ángel Jauregui",
+      "confirmed": false
     },
     {
       "id": "pair_jg8ri0yu_mnzdme3e",
       "team": "Atlas Chapalita",
-      "name": "Vicente Zendejas / Enrique Rojas"
+      "name": "Vicente Zendejas / Enrique Rojas",
+      "confirmed": false
     },
     {
       "id": "pair_zlex22yy_mnzdnuqp",
       "team": "Avila Camacho",
-      "name": "Samuel Ramírez / Omar Álvarez"
+      "name": "Samuel Ramírez / Omar Álvarez",
+      "confirmed": false
     },
     {
       "id": "pair_hy8je7f0_mnzdok6h",
       "team": "Avila Camacho",
-      "name": "Moisés Mendoza / Juan Ramón Álvarez"
+      "name": "Moisés Mendoza / Juan Ramón Álvarez",
+      "confirmed": false
     },
     {
       "id": "pair_6c0exag1_mnzdn647",
       "team": "Atlas Chapalita",
-      "name": "Gil Hernández / Juan José"
+      "name": "Gil Hernández / Juan José",
+      "confirmed": false
     },
     {
       "id": "pair_kiw6g0jj_mnzdl10a",
       "team": "Atlas Chapalita",
-      "name": "Alex Acosta / Sergio Acosta"
+      "name": "Alex Acosta / Sergio Acosta",
+      "confirmed": false
     },
     {
       "id": "pair_1um9t8t8_mnzdp3km",

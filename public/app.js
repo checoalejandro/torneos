@@ -261,6 +261,11 @@ function refreshVisibility() {
   el('finishGroupsBtn').classList.toggle('hidden', !admin || !p || p.phase !== 'groups' || (p.semis && p.semis.length > 0));
   el('resetBtn').classList.toggle('hidden', !admin);
   el('registerCard').classList.toggle('hidden', !admin || !!p);
+  
+  const notice = el('confirmationNotice');
+  if (notice) {
+    notice.classList.toggle('hidden', admin || !!p);
+  }
 
   // Mover parejas abajo si el torneo inició
   const pairsSec = el('pairsSection');
